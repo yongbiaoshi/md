@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.mb.dao.mapper.StatsDeviceOnlineMapper;
 import com.example.demo.mb.model.po.StatsDeviceOnline;
+import com.example.demo.mb.model.po.StatsDeviceOnlineExample;
+import com.example.demo.mb.model.po.StatsDeviceOnlineExample.Criteria;
 import com.example.demo.mb.model.po.StatsDeviceOnlineKey;
 
 @RestController
@@ -71,6 +73,13 @@ public class DbTest {
             sdo.setCreateTime(now);
             sdoMapper.insert(sdo);
         });
+        return "success";
+    }
+
+    @RequestMapping(value = "clear", method = RequestMethod.GET)
+    public String clear() throws ParseException {
+        StatsDeviceOnlineExample example = new StatsDeviceOnlineExample();
+        sdoMapper.deleteByExample(example );
         return "success";
     }
 }
