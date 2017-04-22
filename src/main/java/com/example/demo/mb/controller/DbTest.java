@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
@@ -16,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.mb.dao.mapper.StatsDeviceOnlineMapper;
 import com.example.demo.mb.model.po.StatsDeviceOnline;
 import com.example.demo.mb.model.po.StatsDeviceOnlineExample;
-import com.example.demo.mb.model.po.StatsDeviceOnlineExample.Criteria;
 import com.example.demo.mb.model.po.StatsDeviceOnlineKey;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("db")
 public class DbTest {
@@ -68,7 +75,8 @@ public class DbTest {
             StatsDeviceOnline sdo = new StatsDeviceOnline();
             sdo.setDeviceId(id);
             sdo.setRecordDate(d);
-            sdo.setOnlineSeconds(Long.parseLong("" + Math.round(86400)));
+            long l = (long) (Math.random() * 86400);
+            sdo.setOnlineSeconds(l);
             sdo.setLastUpdateTime(now);
             sdo.setCreateTime(now);
             sdoMapper.insert(sdo);
@@ -76,10 +84,54 @@ public class DbTest {
         return "success";
     }
 
+    @RequestMapping(value = "insert/par", method = RequestMethod.GET)
+    public String insertPar() throws ParseException {
+        //并行插入会抛出异常
+        SimpleDateFormat ymdSdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = ymdSdf.parse("2017-04-08");
+        Date now = new Date();
+        list.parallelStream().forEach(id -> {
+            StatsDeviceOnline sdo = new StatsDeviceOnline();
+            sdo.setDeviceId(id);
+            sdo.setRecordDate(d);
+            long l = (long) (Math.random() * 86400);
+            sdo.setOnlineSeconds(l);
+            sdo.setLastUpdateTime(now);
+            sdo.setCreateTime(now);
+            sdoMapper.insert(sdo);
+        });
+        return "success";
+    }
+
+    @RequestMapping(value = "insert/con")
+    public String insertConcurrent() throws ParseException, InterruptedException {
+        SimpleDateFormat ymdSdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = ymdSdf.parse("2017-04-08");
+        Date now = new Date();
+        ExecutorService exService = Executors.newFixedThreadPool(10);
+        CountDownLatch cdl = new CountDownLatch(list.size());
+        list.forEach(id -> {
+            StatsDeviceOnline sdo = new StatsDeviceOnline();
+            sdo.setDeviceId(id);
+            sdo.setRecordDate(d);
+            long l = (long) (Math.random() * 86400);
+            sdo.setOnlineSeconds(l);
+            sdo.setLastUpdateTime(now);
+            sdo.setCreateTime(now);
+            exService.execute(() -> {
+                sdoMapper.insert(sdo);
+                cdl.countDown();
+            });
+        });
+        exService.shutdown();
+        cdl.await();
+        return "success";
+    }
+
     @RequestMapping(value = "clear", method = RequestMethod.GET)
     public String clear() throws ParseException {
         StatsDeviceOnlineExample example = new StatsDeviceOnlineExample();
-        sdoMapper.deleteByExample(example );
+        sdoMapper.deleteByExample(example);
         return "success";
     }
 }
