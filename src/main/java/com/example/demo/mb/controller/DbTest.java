@@ -7,10 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
@@ -130,6 +128,7 @@ public class DbTest {
 
     @RequestMapping(value = "clear", method = RequestMethod.GET)
     public String clear() throws ParseException {
+        log.info("清理数据");
         StatsDeviceOnlineExample example = new StatsDeviceOnlineExample();
         sdoMapper.deleteByExample(example);
         return "success";
