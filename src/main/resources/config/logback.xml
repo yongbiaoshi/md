@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="true">
-    <!-- sends logs to logback-beagle -->
-    <!-- <consolePlugin /> -->
     <property name="APP_Name" value="mb" />
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
     <contextName>${APP_Name}</contextName>
     <property name="charset" value="UTF-8" />
-
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
             <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] --- %-40logger{36} : %msg%n</pattern>
             <charset>${charset}</charset>
-        </encoder>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
         </encoder>
     </appender>
 
@@ -27,7 +25,8 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/shi/logs/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- <fileNamePattern>/home/shi/logs/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern> -->
+            <fileNamePattern>D:/logs/${APP_Name}/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
 
@@ -40,6 +39,6 @@
     <logger name="com.example.demo.mb.dao.mapper" level="DEBUG"></logger>
     <logger name="com.example.demo" level="INFO"></logger>
     <root level="INFO">
-        <appender-ref ref="LOGSTASH_CONSOLE" />
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>  

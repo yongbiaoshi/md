@@ -24,6 +24,7 @@ public class HomeController {
     public String home() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String now = sdf.format(new Date());
+        log.info("访问首页：" + now);
         return "现在时间：" + now;
     }
 
