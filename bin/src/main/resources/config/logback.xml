@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <configuration scan="true" scanPeriod="60 seconds" debug="true" xmlns="http://ch.qos.logback/xml/ns/logback"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback /home/shi/XMLCatalog/logback.xsd">
     <!-- sends logs to logback-beagle -->
     <!-- <consolePlugin /> -->
+=======
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+>>>>>>> ea0077f3e1449365d8b3ad2495fd1c965d06a30a
     <property name="APP_Name" value="mb" />
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
     <contextName>${APP_Name}</contextName>
     <property name="charset" value="UTF-8" />
+<<<<<<< HEAD
 
     <conversionRule conversionWord="req" converterClass="com.example.demo.mb.log.RequestIdConverter" />
 
@@ -51,6 +56,40 @@
         </encoder>
     </appender>
 
+=======
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] --- %-40logger{36} : %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdc>true</includeMdc>
+            <includeCallerData>true</includeCallerData>
+            <customFields>{"app_name": "${APP_Name}"}</customFields>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- <fileNamePattern>/home/shi/logs/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern> -->
+            <fileNamePattern>D:/logs/${APP_Name}/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] %6relative --- [%24thread] %-40logger{36} : %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+    </appender>
+
+>>>>>>> ea0077f3e1449365d8b3ad2495fd1c965d06a30a
     <logger name="com.example.demo.mb.dao.mapper" level="DEBUG"></logger>
     <logger name="com.example.demo" level="INFO"></logger>
     <root level="INFO">

@@ -61,11 +61,17 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> ea0077f3e1449365d8b3ad2495fd1c965d06a30a
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>4.9</version>
         </dependency>
+<<<<<<< HEAD
+=======
 
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
         <dependency>
@@ -73,6 +79,7 @@
             <artifactId>logback-access</artifactId>
         </dependency>
 
+>>>>>>> ea0077f3e1449365d8b3ad2495fd1c965d06a30a
     </dependencies>
 
     <build>
