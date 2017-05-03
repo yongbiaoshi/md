@@ -21,12 +21,15 @@
             <!-- <fileNamePattern>D:/logs/${APP_Name}/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern> -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] --- %-40logger{36} : %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
     </appender>
 
     <logger name="com.example.demo.mb.dao.mapper" level="DEBUG"></logger>
     <logger name="com.example.demo" level="INFO"></logger>
     <root level="INFO">
-        <appender-ref ref="LOGSTASH_CONSOLE" />
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>  
