@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.demo.mb.log.RequestIdManager;
 
 public class LoggingInterceptor implements HandlerInterceptor {
 
@@ -26,9 +27,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
         StringBuilder sb = new StringBuilder("\n");
         sb.append("↓↓↓↓↓↓↓↓↓↓↓↓请求↓↓↓↓↓↓↓↓↓↓↓↓\n");
-        String u = UUID.randomUUID().toString().replace("-", "");
-        request.setAttribute("RequestId", u);
-        sb.append(nameValueFormat("RequestId", u));
+        RequestIdManager.remove();
         sb.append(nameValueFormat("URI", request.getRequestURI()));
         if (handler != null) {
             sb.append(nameValueFormat("Handler", handler.toString()));
@@ -39,8 +38,8 @@ public class LoggingInterceptor implements HandlerInterceptor {
             sessionId = session.getId();
             sb.append(nameValueFormat("SessionId", sessionId));
             Enumeration<String> sNames = session.getAttributeNames();
-            if(sNames != null){
-                while(sNames.hasMoreElements()){
+            if (sNames != null) {
+                while (sNames.hasMoreElements()) {
                     sb.append(sNames.nextElement());
                     sb.append(" | ");
                 }
@@ -84,8 +83,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
             throws Exception {
         StringBuilder sb = new StringBuilder("\n");
         sb.append("↓↓↓↓↓↓↓↓↓↓↓↓响应↓↓↓↓↓↓↓↓↓↓↓↓\n");
-        Object reqId = request.getAttribute("RequestId");
-        sb.append(nameValueFormat("RequestId", reqId == null ? "" : reqId.toString()));
         sb.append(nameValueFormat("Status", response.getStatus() + ""));
         sb.append(nameValueFormat("Content-Type", response.getContentType()));
         if (handler != null) {
