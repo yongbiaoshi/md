@@ -68,10 +68,6 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-access</artifactId>
-        </dependency>
 
     </dependencies>
 
