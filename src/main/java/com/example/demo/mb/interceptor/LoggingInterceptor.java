@@ -1,8 +1,11 @@
 package com.example.demo.mb.interceptor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +64,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
         Enumeration<String> names = request.getHeaderNames();
         while (names.hasMoreElements()) {
             String name = names.nextElement();
-            sb.append(nameValueFormat(name, request.getHeader(name)));
+            Enumeration<String> values = request.getHeaders(name);
+            List<String> valueList = new ArrayList<>();
+            while (values.hasMoreElements()) {
+                valueList.add(values.nextElement());
+            }
+            sb.append(nameValueFormat(name, valueList.size() > 0 ? valueList.get(0) : ""));
         }
         sb.append("↑↑↑↑↑↑↑↑↑↑↑↑请求↑↑↑↑↑↑↑↑↑↑↑↑");
         logger.info(sb.toString());
@@ -90,9 +98,18 @@ public class LoggingInterceptor implements HandlerInterceptor {
         }
         sb.append("----------Headers----------\n");
         Iterator<String> names = response.getHeaderNames().iterator();
+        List<String> list = new ArrayList<>();
         while (names.hasNext()) {
             String name = names.next();
-            sb.append(nameValueFormat(name, response.getHeader(name)));
+            Collection<String> hs = response.getHeaders(name);
+            if (!list.contains(name)) {
+                list.add(name);
+                hs.stream().forEach(value -> {
+                    sb.append(nameValueFormat(name, value));
+                });
+            } else {
+                continue;
+            }
         }
         sb.append("↑↑↑↑↑↑↑↑↑↑↑↑响应↑↑↑↑↑↑↑↑↑↑↑↑\n");
         logger.info(sb.toString());

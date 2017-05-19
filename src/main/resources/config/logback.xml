@@ -13,7 +13,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%req_id] [%5level] --- %-40logger{36} : %msg%n</pattern>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%req_id] [%5level] [%marker] --- %-40logger{36} : %msg%n</pattern>
             <charset>${charset}</charset>
         </encoder>
     </appender>
@@ -32,6 +32,7 @@
 
     <logger name="com.example.demo.mb.dao.mapper" level="DEBUG"></logger>
     <logger name="com.example.demo" level="INFO"></logger>
+    <logger name="com.example.demo.mb.interceptor.LoggingInterceptor" level="INFO"></logger>
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
