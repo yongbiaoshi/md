@@ -32,7 +32,9 @@
 
     <logger name="com.example.demo.mb.dao.mapper" level="DEBUG"></logger>
     <logger name="com.example.demo" level="INFO"></logger>
-    <logger name="com.example.demo.mb.interceptor.LoggingInterceptor" level="INFO"></logger>
+    <logger name="com.example.demo.mb.interceptor.LoggingInterceptor" level="WARN"></logger>
+    <logger name="com.example.demo.mb.task.RedisTestTask" level="DEBUG"></logger>
+    <logger name="com.example.demo.mb.aspect" level="DEBUG"></logger>
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
