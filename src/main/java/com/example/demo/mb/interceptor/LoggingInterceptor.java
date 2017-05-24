@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.mb.log.RequestIdManager;
+import com.example.demo.mb.log.ProIdManager;
 
 public class LoggingInterceptor implements HandlerInterceptor {
 
@@ -30,7 +30,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
         StringBuilder sb = new StringBuilder("\n");
         sb.append("↓↓↓↓↓↓↓↓↓↓↓↓请求↓↓↓↓↓↓↓↓↓↓↓↓\n");
-        RequestIdManager.remove();
+        ProIdManager.remove();
         sb.append(nameValueFormat("URI", request.getRequestURI()));
         if (handler != null) {
             sb.append(nameValueFormat("Handler", handler.toString()));

@@ -9,7 +9,7 @@ import net.logstash.logback.composite.AbstractFieldJsonProvider;
 import net.logstash.logback.composite.FieldNamesAware;
 import net.logstash.logback.fieldnames.LogstashFieldNames;
 
-public class RequestIdJsonProvider extends AbstractFieldJsonProvider<ILoggingEvent>
+public class ProIdJsonProvider extends AbstractFieldJsonProvider<ILoggingEvent>
         implements FieldNamesAware<LogstashFieldNames> {
     public static final String FIELD_LOGGER_NAME = "req_id";
     @Override

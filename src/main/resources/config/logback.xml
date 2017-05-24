@@ -6,14 +6,14 @@
     <contextName>${APP_Name}</contextName>
     <property name="charset" value="UTF-8" />
     
-    <conversionRule conversionWord="req_id" converterClass="com.example.demo.mb.log.RequestIdConverter" />
-    
+    <conversionRule conversionWord="req_id" converterClass="com.example.demo.mb.log.ProIdConverter" />
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%req_id] [%5level] [%marker] --- %-40logger{36} : %msg%n</pattern>
+            <!-- [%marker] -->
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%req_id] [%5level] --- %-40logger{36} : %msg%n</pattern>
             <charset>${charset}</charset>
         </encoder>
     </appender>
