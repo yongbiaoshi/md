@@ -5,10 +5,13 @@ import javax.annotation.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisConnectionUtils;
 import org.springframework.stereotype.Component;
+
+import com.example.demo.mb.log.ProIdManager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +39,18 @@ public class TaskScheduleAspect {
             }
         } catch (Exception e) {
             log.error("释放定时任务中的Redis连接失败。失败信息：" + e.getMessage(), e);
+        }
+    }
+
+    @Before("taskSchedule()")
+    public void proId(JoinPoint jp) {
+        try {
+            ProIdManager.remove();
+            if (log.isDebugEnabled()) {
+                log.debug("定时任务清除流程ID，{}", jp.getSignature());
+            }
+        } catch (Exception e) {
+            log.error("定时任务清除流程ID失败。失败信息：" + e.getMessage(), e);
         }
     }
 }
