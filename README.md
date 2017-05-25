@@ -11,4 +11,6 @@ Spring boot mybatis demo 工程
 7. 定时任务 
 8. Spring Data Redis
 9. Redis连接自动释放（AOP）
-
+10. 添加统一异常处理
+    1. 定义基础异常
+    2. 添加统一异常返回信息 
