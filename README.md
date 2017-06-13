@@ -14,4 +14,3 @@ Spring boot mybatis demo 工程
 10. 添加统一异常处理
     1. 定义基础异常
     2. 添加统一异常返回信息 
-    3. test
